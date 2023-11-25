@@ -1,0 +1,12 @@
+variable "aws_ssm_parameter" {}
+variable "appsg" {}
+variable "websg" {}
+variable "bastsg" {}
+variable "pri1" {}
+variable "pri2" {}
+variable "pub1" {}
+variable "pub2" {}
+variable "pub3" {}
+variable "pub4" {}
+variable "alb_target_group_arn" {}
+variable "alb_target_group_arn2" {}
