@@ -4,7 +4,7 @@ default = "ocean"
 }
 variable "password" {
     type =string
-default = "badejomessi1"
+default = "DataOceanPass"
 sensitive = true
 }
 variable "identifier" {
