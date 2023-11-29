@@ -38,5 +38,5 @@ output "aws_ssm_parameter" {
   value = data.aws_ssm_parameter.this.value
 }
 output "vpc_id" {
-  value = aws_vpc.twotier.id
+  value = aws_vpc.threetier.id
 }

@@ -95,7 +95,7 @@ resource "aws_autoscaling_attachment" "wsg_atch" {
   autoscaling_group_name = aws_autoscaling_group.webgt.id
   lb_target_group_arn =  var.alb_target_group_arn2
 }
- 
+
 
 
 

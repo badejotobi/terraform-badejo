@@ -8,15 +8,15 @@ resource "aws_db_subnet_group" "dbsubnet" {
   }
 }
 
-resource "aws_db_instance" "ocean" {
+resource "aws_db_instance" "oceanic" {
   allocated_storage    = 10
-  db_name              = "ocean"
+  db_name              = "oceanic"
   engine               = "mysql"
   engine_version       = "8.0"
   instance_class       = "db.t2.micro"
   username             = var.username
   password             = var.password
-  identifier           = var.username
+  identifier           = var.identifier
   vpc_security_group_ids = [var.secgrp]
   parameter_group_name = "default.mysql8.0"
   skip_final_snapshot  = true

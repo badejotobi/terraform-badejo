@@ -4,12 +4,15 @@ provider "aws" {
 module "vpc" {
   source = "./modules/vpc"
 }
+
 module "database" {
   source = "./modules/database"
   priv1  = module.vpc.private1
   priv2  = module.vpc.private2
   secgrp = module.vpc.Db-sg
 }
+
+
 module "autoscaling" {
   source                = "./modules/autoscaling"
   aws_ssm_parameter     = module.vpc.aws_ssm_parameter
@@ -25,6 +28,7 @@ module "autoscaling" {
   alb_target_group_arn  = module.load-balancer.target_arn
   alb_target_group_arn2 = module.load-balancer.target_arn2
 }
+
 module "load-balancer" {
   source  = "./modules/load-balancer"
   Alb     = module.vpc.Alb

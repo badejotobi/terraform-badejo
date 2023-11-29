@@ -7,6 +7,10 @@ variable "password" {
 default = "badejomessi1"
 sensitive = true
 }
+variable "identifier" {
+    type =string
+default = "oceanic"
+}
 variable "priv1" {}
 variable "priv2" {}
 variable "secgrp" {}

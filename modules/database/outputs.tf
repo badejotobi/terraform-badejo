@@ -1,3 +1,3 @@
 output "rdsendpoint" {
-    value = aws_db_instance.ocean.endpoint
+    value = aws_db_instance.oceanic.endpoint
 }

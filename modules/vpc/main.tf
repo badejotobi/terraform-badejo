@@ -1,7 +1,7 @@
-resource "aws_vpc" "twotier" {
+resource "aws_vpc" "threetier" {
   cidr_block = "10.0.0.0/16"
   tags = {
-    Name = "twotier"
+    Name = "threeTier_Badejo"
   }
 }
 
@@ -9,7 +9,7 @@ resource "aws_vpc" "twotier" {
 ###SUBNET CREATION
 #Lets Create subnet
 resource "aws_subnet" "public1" {
-  vpc_id     = aws_vpc.twotier.id
+  vpc_id     = aws_vpc.threetier.id
   cidr_block = "10.0.1.0/24"
   map_public_ip_on_launch = true
   availability_zone = "us-east-1a"
@@ -18,7 +18,7 @@ resource "aws_subnet" "public1" {
   }
 }
 resource "aws_subnet" "public2" {
-  vpc_id     = aws_vpc.twotier.id
+  vpc_id     = aws_vpc.threetier.id
   cidr_block = "10.0.2.0/24"
   map_public_ip_on_launch = true
   availability_zone = "us-east-1b"
@@ -27,7 +27,7 @@ resource "aws_subnet" "public2" {
   }
 }
 resource "aws_subnet" "public3" {
-  vpc_id     = aws_vpc.twotier.id
+  vpc_id     = aws_vpc.threetier.id
   cidr_block = "10.0.5.0/24"
   map_public_ip_on_launch = true
   availability_zone = "us-east-1a"
@@ -36,7 +36,7 @@ resource "aws_subnet" "public3" {
   }
 }
 resource "aws_subnet" "public4" {
-  vpc_id     = aws_vpc.twotier.id
+  vpc_id     = aws_vpc.threetier.id
   cidr_block = "10.0.6.0/24"
   map_public_ip_on_launch = true
   availability_zone = "us-east-1b"
@@ -46,7 +46,7 @@ resource "aws_subnet" "public4" {
 }
 
 resource "aws_subnet" "private1" {
-  vpc_id     = aws_vpc.twotier.id
+  vpc_id     = aws_vpc.threetier.id
   cidr_block = "10.0.3.0/24"
 
   availability_zone = "us-east-1a"
@@ -55,7 +55,7 @@ resource "aws_subnet" "private1" {
   }
 }
 resource "aws_subnet" "private2" {
-  vpc_id     = aws_vpc.twotier.id
+  vpc_id     = aws_vpc.threetier.id
   cidr_block = "10.0.4.0/24"
 
   availability_zone = "us-east-1b"
@@ -68,7 +68,7 @@ resource "aws_subnet" "private2" {
 #INTERNET GATEWAY
 #lets create our internet gateway
 resource "aws_internet_gateway" "igw"{
-  vpc_id = aws_vpc.twotier.id
+  vpc_id = aws_vpc.threetier.id
   tags = {
     Name = "IGW"
   }
@@ -98,24 +98,24 @@ resource "aws_nat_gateway" "natgat" {
 
 #lets create our route table
 resource "aws_route_table" "publicroute" {
-  vpc_id = aws_vpc.twotier.id
+  vpc_id = aws_vpc.threetier.id
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
     
   }
   tags = {
-    Name = "TwotierPublic"
+    Name = "ThreetierPublic"
   }
 }
 resource "aws_route_table" "privateroute" {
-  vpc_id = aws_vpc.twotier.id
+  vpc_id = aws_vpc.threetier.id
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_nat_gateway.natgat.id
   }
   tags = {
-    Name = "TwotierPrivate"
+    Name = "ThreetierPrivate"
   }
 }
 
@@ -155,8 +155,8 @@ resource "aws_route_table_association" "f" {
 #------------------------------------------------
 #create security groups
 resource "aws_security_group" "Bastion" {
-  vpc_id = aws_vpc.twotier.id
-  name   = join("_", ["sg", aws_vpc.twotier.id])
+  vpc_id = aws_vpc.threetier.id
+  name   = join("_", ["sg", aws_vpc.threetier.id])
   description = "Our Bastion Host security group"
   dynamic "ingress" {
     for_each = var.rules
@@ -180,8 +180,8 @@ resource "aws_security_group" "Bastion" {
 }
 
 resource "aws_security_group" "Appserver" {
-  vpc_id = aws_vpc.twotier.id
-  name = join("_",["ap", aws_vpc.twotier.id])
+  vpc_id = aws_vpc.threetier.id
+  name = join("_",["ap", aws_vpc.threetier.id])
   ingress {
     description      = "Allow SSH from our Bastion Host"
     from_port        = 22
@@ -211,8 +211,8 @@ resource "aws_security_group" "Appserver" {
 }
 
 resource "aws_security_group" "Webserver" {
-  vpc_id = aws_vpc.twotier.id
-  name = join("_",["wb", aws_vpc.twotier.id])
+  vpc_id = aws_vpc.threetier.id
+  name = join("_",["wb", aws_vpc.threetier.id])
   ingress {
     description      = "Allow SSH from our Bastion Host"
     from_port        = 22
@@ -243,8 +243,8 @@ resource "aws_security_group" "Webserver" {
 
 
 resource "aws_security_group" "Alb" {
-  vpc_id = aws_vpc.twotier.id
-  name = join("_",["alb", aws_vpc.twotier.id])
+  vpc_id = aws_vpc.threetier.id
+  name = join("_",["alb", aws_vpc.threetier.id])
   ingress {
     description      = "Load balancer to route to the internett"
     from_port        = 80
@@ -266,8 +266,8 @@ resource "aws_security_group" "Alb" {
   
 }
 resource "aws_security_group" "Wlb" {
-  vpc_id = aws_vpc.twotier.id
-  name = join("_",["wlb", aws_vpc.twotier.id])
+  vpc_id = aws_vpc.threetier.id
+  name = join("_",["wlb", aws_vpc.threetier.id])
   ingress {
     description      = "Load balancer to route to the internett"
     from_port        = 80
@@ -289,8 +289,8 @@ resource "aws_security_group" "Wlb" {
   
 }
 resource "aws_security_group" "DB-SG" {
-  vpc_id = aws_vpc.twotier.id
-  name = join("_",["dbsg", aws_vpc.twotier.id])
+  vpc_id = aws_vpc.threetier.id
+  name = join("_",["dbsg", aws_vpc.threetier.id])
   ingress {
     description      = "database security group"
     from_port        = 3306
